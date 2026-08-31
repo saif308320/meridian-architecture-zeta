@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Architecture Group — Design, Build, Transform</title>
+<meta name="description" content="Meridian Architecture Group, Sydney. Award-winning architectural design, construction management, interior fit-out and urban planning since 2009.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Archivo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='50' width='22' height='40' fill='%23f59e0b'/><rect x='40' y='20' width='22' height='70' fill='%23222222'/><rect x='70' y='35' width='22' height='55' fill='%23f59e0b'/></svg>">
+<style>
+:root{
+  --black:#0d0d0d; --char:#161616; --grey:#f4f4f2; --grey2:#e9e9e6; --line:#d9d9d4;
+  --amber:#f59e0b; --amber-deep:#d97706;
+  --ink-body:#4a4a47;
+  --maxw:1240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Archivo',sans-serif;background:#fff;color:var(--black);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.serif{font-family:'Playfair Display',serif;font-weight:700;line-height:1.08}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+::selection{background:var(--amber);color:#fff}
+
+/* top bar */
+.topbar{background:var(--black);color:rgba(255,255,255,.75);font-size:12.5px;padding:9px 0;letter-spacing:.4px}
+.topbar .wrap{display:flex;justify-content:space-between;gap:16px}
+.topbar a{color:var(--amber);font-weight:600}
+.topbar a:hover{text-decoration:underline}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:18px 34px;border:none;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
+.btn svg{width:16px;height:16px;transition:transform .35s}
+.btn:hover svg{transform:translateX(5px)}
+.btn-solid{background:var(--amber);color:var(--black)}
+.btn-solid:hover{background:var(--black);color:#fff;box-shadow:0 18px 40px rgba(13,13,13,.3);transform:translateY(-3px)}
+.btn-line{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+.btn-line:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-3px)}
+.btn-dark{background:var(--black);color:#fff}
+.btn-dark:hover{background:var(--amber);color:var(--black);box-shadow:0 18px 40px rgba(245,158,11,.35);transform:translateY(-3px)}
+
+/* ---------- Headings ---------- */
+.sec{padding:110px 0}
+.kicker{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--amber-deep);margin-bottom:18px}
+.kicker::before{content:"";width:38px;height:2px;background:var(--amber)}
+.sec-head h2{font-size:clamp(34px,5vw,56px)}
+.sec-head p{color:var(--ink-body);max-width:600px;margin-top:18px;font-size:16px}
+.sec-head.center{text-align:center}
+.sec-head.center .kicker{justify-content:center}
+.sec-head.center p{margin-left:auto;margin-right:auto}
+.sec-head.dark h2{color:#fff}
+.sec-head.dark p{color:rgba(255,255,255,.65)}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal[data-d="1"]{transition-delay:.12s}
+.reveal[data-d="2"]{transition-delay:.24s}
+.reveal[data-d="3"]{transition-delay:.36s}
+.reveal[data-d="4"]{transition-delay:.48s}
+.reveal-left{transform:translateX(-70px)}
+.reveal-right{transform:translateX(70px)}
+
+/* ---------- Header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:100;padding:26px 0;transition:.4s}
+header.scrolled{background:rgba(13,13,13,.92);backdrop-filter:blur(12px);padding:14px 0;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+header:not(.scrolled) .nav-links a,header:not(.scrolled) .nav-logo{color:#fff}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:800;font-size:24px;letter-spacing:.5px;display:flex;align-items:center; color: white; gap:12px;transition:.4s}
+.nav-logo .m{width:38px;height:38px;border:2px solid var(--amber);display:grid;place-items:center;font-size:13px;font-family:'Archivo',sans-serif;font-weight:800;color:var(--amber)}
+.nav-logo small{display:block;font-family:'Archivo',sans-serif;font-size:9px;letter-spacing:3.5px;font-weight:700;opacity:.6;text-transform:uppercase}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:10px 14px;position:relative;transition:.3s;color:var(--black)}
+header.scrolled .nav-links a{color:#fff}
+.nav-links a::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:.3s}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta .btn{padding:13px 24px;font-size:12px}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;z-index:60}
+.hamburger span{display:block;width:28px;height:2px;background:#fff;margin:6px 0;transition:.3s}
+.hamburger.active span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--black)}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;will-change:transform;transform:scale(1.12)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,.55) 0%,rgba(13,13,13,.25) 40%,rgba(13,13,13,.9) 100%)}
+.hero-inner{position:relative;z-index:2;width:100%;padding:180px 0 110px;color:#fff}
+.hero h1{font-size:clamp(44px,7.4vw,92px);letter-spacing:-1px}
+.hero h1 .word{display:inline-block;overflow:hidden;vertical-align:top}
+.hero h1 .word span{display:inline-block;transform:translateY(110%);animation:wordUp 1s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes wordUp{to{transform:translateY(0)}}
+.hero h1 .line2{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.85)}
+.hero h1 .em{color:var(--amber)}
+.hero-sub{max-width:560px;font-size:17px;color:rgba(255,255,255,.78);margin:28px 0 40px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:46px;opacity:0;transform:translateY(20px);animation:fadeUp .8s 1.4s forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.chip{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.22);padding:11px 20px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;backdrop-filter:blur(6px);background:rgba(255,255,255,.05)}
+.chip .dot{width:7px;height:7px;background:var(--amber);border-radius:50%}
+.hero-scroll{position:absolute;right:34px;bottom:40px;writing-mode:vertical-rl;color:rgba(255,255,255,.5);font-size:11px;letter-spacing:4px;text-transform:uppercase;display:flex;align-items:center;gap:14px;z-index:3}
+.hero-scroll::after{content:"";width:1px;height:64px;background:linear-gradient(180deg,var(--amber),transparent);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- Intro strip ---------- */
+.intro-strip{background:var(--grey);border-bottom:1px solid var(--line)}
+.intro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.intro-cell{background:var(--grey);padding:44px 36px;transition:background .35s}
+.intro-cell:hover{background:#fff}
+.intro-cell b{font-family:'Playfair Display',serif;font-size:40px;color:var(--amber-deep);display:block;line-height:1}
+.intro-cell span{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-body);display:block;margin-top:10px}
+
+/* ---------- Projects / Bento ---------- */
+.projects{background:#fff}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:170px;gap:18px;perspective:1600px}
+.p-card{position:relative;grid-column:span 4;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--char);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s;will-change:transform}
+.p-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.p-card::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(13,13,13,0) 30%,rgba(13,13,13,.85) 100%);transition:.5s}
+.p-card:hover{box-shadow:0 40px 90px rgba(13,13,13,.45);z-index:5}
+.p-card:hover img{transform:scale(1.1)}
+.p-wide{grid-column:span 6}
+.p-tall{grid-row:span 2}
+.p-info{position:absolute;left:0;right:0;bottom:0;padding:26px;color:#fff;z-index:3;transform:translateY(8px);transition:.5s}
+.p-card:hover .p-info{transform:translateY(0)}
+.p-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber);margin-bottom:10px;border:1px solid rgba(245,158,11,.5);padding:5px 12px;border-radius:50px}
+.p-info h3{font-size:22px;font-weight:700}
+.p-info .loc{font-size:13px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:7px;margin-top:6px}
+.p-info .loc svg{width:14px;height:14px;color:var(--amber)}
+.p-info .year{position:absolute;top:26px;right:26px;font-family:'Playfair Display',serif;font-size:30px;font-style:italic;color:rgba(255,255,255,.25);transition:.4s}
+.p-card:hover .p-info .year{color:var(--amber)}
+.p-overlay{position:absolute;inset:0;background:var(--amber);z-index:2;transform:scaleY(0);transform-origin:bottom;opacity:.12;transition:.4s}
+.p-card:hover .p-overlay{transform:scaleY(1)}
+
+/* ---------- Services ---------- */
+.services{background:var(--char);color:#fff}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid rgba(255,255,255,.1);margin-top:56px}
+.svc{position:relative;padding:44px 36px;border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);transition:.45s;background:var(--char);overflow:hidden}
+.svc:nth-child(4n){border-right:none}
+.svc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:.45s}
+.svc:hover::before{transform:scaleX(1)}
+.svc:hover{background:#1e1e1e;transform:translateY(-6px)}
+.svc .num{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--amber);letter-spacing:1px}
+.svc-icon{width:56px;height:56px;border:1px solid rgba(245,158,11,.4);display:grid;place-items:center;color:var(--amber);margin:22px 0 20px;transition:.45s}
+.svc:hover .svc-icon{background:var(--amber);color:var(--black);transform:rotate(-6deg) scale(1.08)}
+.svc-icon svg{width:26px;height:26px}
+.svc h3{font-size:20px;margin-bottom:12px}
+.svc>p{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:22px}
+.process-steps{display:flex;flex-direction:column;gap:10px}
+.process-steps .step{display:flex;align-items:center;gap:10px;font-size:12.5px;color:rgba(255,255,255,.75);font-weight:600;letter-spacing:.4px}
+.process-steps .step i{width:22px;height:22px;border:1px solid rgba(245,158,11,.5);color:var(--amber);border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;flex:none}
+.svc-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;color:var(--amber);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.svc-link svg{width:14px;height:14px;transition:transform .3s}
+.svc-link:hover svg{transform:translateX(5px)}
+
+/* ---------- About ---------- */
+.about{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.about-visual{position:relative}
+.about-main{border-radius:6px;overflow:hidden;box-shadow:0 40px 90px rgba(13,13,13,.2)}
+.about-main img{width:100%;height:600px;object-fit:cover;transition:transform 1s}
+.about-visual:hover .about-main img{transform:scale(1.05)}
+.about-side{position:absolute;bottom:-40px;right:-40px;width:46%;border-radius:6px;overflow:hidden;border:8px solid #fff;box-shadow:0 30px 70px rgba(13,13,13,.35)}
+.about-side img{width:100%;height:220px;object-fit:cover}
+.about-content p{color:var(--ink-body);margin-bottom:16px}
+.about-content p strong{color:var(--black)}
+.about-mission{border-left:3px solid var(--amber);padding:6px 0 6px 22px;margin:26px 0;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--char)}
+.awards{margin-top:34px}
+.awards h4{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--amber-deep);font-family:'Archivo',sans-serif;font-weight:700;margin-bottom:14px}
+.award{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.award .yr{font-family:'Playfair Display',serif;font-size:22px;color:var(--amber);width:70px;flex:none}
+.award b{font-size:15px;display:block}
+.award span{font-size:13px;color:var(--ink-body)}
+
+/* ---------- Team ---------- */
+.team{background:var(--grey)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px}
+.member{background:#fff;position:relative;transition:.45s cubic-bezier(.22,1,.36,1)}
+.member:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(13,13,13,.18)}
+.member-photo{position:relative;height:340px;overflow:hidden}
+.member-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s;filter:grayscale(30%)}
+.member:hover .member-photo img{transform:scale(1.08);filter:grayscale(0)}
+.member-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(13,13,13,.4))}
+.member .idx{position:absolute;top:16px;left:16px;z-index:3;font-family:'Playfair Display',serif;font-style:italic;color:#fff;background:rgba(13,13,13,.5);padding:6px 14px;backdrop-filter:blur(4px)}
+.member-body{padding:24px}
+.member-body h3{font-size:19px}
+.member-body .role{color:var(--amber-deep);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:5px 0 8px;display:block}
+.member-body .xp{font-size:13px;color:var(--ink-body)}
+.member-body .xp b{color:var(--black)}
+.member-social{display:flex;gap:8px;margin-top:16px}
+.member-social a{width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-body);transition:.3s}
+.member-social a:hover{background:var(--black);color:#fff;border-color:var(--black)}
+.member-social svg{width:15px;height:15px}
+
+/* ---------- Process timeline ---------- */
+.process{background:var(--black);color:#fff;position:relative;overflow:hidden}
+.process::before{content:"";position:absolute;top:-200px;right:-150px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(245,158,11,.15)}
+.timeline{position:relative;max-width:900px;margin:70px auto 0;padding-left:0}
+.tl-line{position:absolute;left:38px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.14)}
+.tl-fill{position:absolute;left:38px;top:0;width:2px;height:0;background:linear-gradient(180deg,var(--amber),var(--amber-deep));transition:height 1.4s cubic-bezier(.22,1,.36,1)}
+.tl-item{position:relative;padding:0 0 64px 110px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:38px;top:0;width:76px;height:76px;transform:translateX(-50%);background:var(--char);border:2px solid rgba(245,158,11,.4);border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:26px;color:var(--amber);z-index:2;transition:.5s}
+.tl-item.in .tl-dot{background:var(--amber);color:var(--black);border-color:var(--amber);box-shadow:0 0 0 12px rgba(245,158,11,.12)}
+.tl-item h3{font-size:26px;margin-bottom:10px}
+.tl-item h3 span{color:var(--amber);font-style:italic;font-family:'Playfair Display',serif;font-weight:600}
+.tl-item p{color:rgba(255,255,255,.62);font-size:15px;max-width:560px}
+.tl-item .dur{display:inline-block;margin-top:14px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber);border:1px solid rgba(245,158,11,.4);padding:7px 14px;border-radius:50px}
+
+/* ---------- Testimonials ---------- */
+.testi{background:#fff}
+.quote-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:60px}
+.quote-card{position:relative;background:var(--grey);padding:46px 42px;border-radius:4px;transition:.4s}
+.quote-card:hover{background:var(--black);color:#fff;transform:translateY(-6px)}
+.quote-card:hover p{color:rgba(255,255,255,.75)}
+.quote-card::before{content:"\201C";position:absolute;top:8px;left:26px;font-family:'Playfair Display',serif;font-size:90px;color:var(--amber);opacity:.35;line-height:1}
+.quote-card blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;line-height:1.6;margin:14px 0 26px}
+.quote-who b{display:block;font-size:14px;letter-spacing:1px;text-transform:uppercase}
+.quote-who span{font-size:13px;color:var(--ink-body)}
+.quote-card:hover .quote-who span{color:rgba(255,255,255,.6)}
+.quote-card .stars{color:var(--amber);font-size:14px;letter-spacing:2px;margin-bottom:4px}
+
+/* ---------- CTA band ---------- */
+.cta-band{background:linear-gradient(120deg,var(--amber),#fbbf24);color:var(--black);padding:90px 0;position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;top:-140px;right:10%;width:360px;height:360px;border-radius:50%;border:50px solid rgba(255,255,255,.18)}
+.cta-flex{display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;z-index:2}
+.cta-flex h2{font-size:clamp(30px,4.6vw,52px);max-width:640px}
+.cta-flex p{color:rgba(0,0,0,.6);margin-top:14px;max-width:520px;font-weight:500}
+.cta-flex .btn-solid{background:var(--black);color:#fff}
+.cta-flex .btn-solid:hover{background:#fff;color:var(--black)}
+
+/* ---------- Contact ---------- */
+.contact{background:var(--grey)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;margin-top:56px}
+.contact-info-cards{display:flex;flex-direction:column;gap:20px}
+.c-card{display:flex;gap:22px;align-items:flex-start;background:#fff;padding:26px;border-left:3px solid var(--amber);box-shadow:0 10px 30px rgba(13,13,13,.05);transition:.35s}
+.c-card:hover{transform:translateX(8px)}
+.c-card .ic{width:52px;height:52px;background:var(--black);color:var(--amber);display:grid;place-items:center;flex:none}
+.c-card .ic svg{width:22px;height:22px}
+.c-card h4{font-size:15px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.c-card p,.c-card a{color:var(--ink-body);font-size:15px}
+.c-card a:hover{color:var(--amber-deep)}
+.c-card a.phone{font-family:'Playfair Display',serif;font-size:19px;color:var(--black);font-weight:600}
+.contact-form{background:#fff;padding:48px;box-shadow:0 30px 70px rgba(13,13,13,.08)}
+.contact-form h3{font-size:28px;margin-bottom:6px}
+.contact-form>p{color:var(--ink-body);font-size:14.5px;margin-bottom:30px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.f-group{display:flex;flex-direction:column;gap:7px}
+.f-group.full{grid-column:1/-1}
+.f-group label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--black)}
+.f-group input,.f-group select,.f-group textarea{border:1px solid var(--line);background:var(--grey);padding:14px 16px;font-family:'Archivo',sans-serif;font-size:14.5px;outline:none;transition:.3s;color:var(--black);border-radius:2px}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:var(--amber);background:#fff;box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+.f-group input.error{border-color:#dc2626;background:#fef2f2}
+.f-group textarea{resize:vertical;min-height:120px}
+.form-msg{display:none;margin-top:18px;padding:16px;font-size:14px;font-weight:600;text-align:center;background:var(--grey);border-left:3px solid var(--amber)}
+.form-msg.ok{display:block;background:#fefce8;color:#a16207;border-color:var(--amber);animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.map-embed{margin-top:60px;border-radius:4px;overflow:hidden;position:relative;box-shadow:0 30px 70px rgba(13,13,13,.15);filter:grayscale(20%)}
+.map-embed iframe{width:100%;height:420px;border:0;display:block}
+.map-overlay{position:absolute;top:24px;left:24px;background:var(--black);color:#fff;padding:20px 26px;z-index:5;max-width:280px}
+.map-overlay h4{font-size:16px;color:var(--amber)}
+.map-overlay p{font-size:13.5px;color:rgba(255,255,255,.7);margin-top:4px}
+
+/* ---------- Footer ---------- */
+footer{background:var(--black);color:rgba(255,255,255,.6)}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:50px;padding:80px 0 54px}
+.footer-brand .nav-logo{color:#fff;margin-bottom:20px}
+.footer-brand p{font-size:14px;max-width:320px}
+.footer-cert{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.footer-cert span{border:1px solid rgba(245,158,11,.4);color:var(--amber);font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 12px}
+.footer-col h4{color:#fff;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:22px;position:relative}
+.footer-col h4::after{content:"";position:absolute;left:0;bottom:-10px;width:26px;height:2px;background:var(--amber)}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:12px}
+.footer-col a{font-size:14px;transition:.25s;display:inline-flex;align-items:center;gap:8px}
+.footer-col a::before{content:"";width:0;height:1px;background:var(--amber);transition:.25s}
+.footer-col a:hover{color:var(--amber);transform:translateX(4px)}
+.footer-col a:hover::before{width:10px}
+.footer-social{display:flex;gap:10px;margin-top:24px}
+.footer-social a{width:42px;height:42px;border:1px solid rgba(255,255,255,.16);display:grid;place-items:center;color:rgba(255,255,255,.7);transition:.3s}
+.footer-social a:hover{background:var(--amber);color:var(--black);border-color:var(--amber);transform:translateY(-4px)}
+.footer-social svg{width:17px;height:17px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:24px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px}
+
+.totop{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:var(--amber);color:var(--black);border:none;cursor:pointer;display:grid;place-items:center;opacity:0;transform:translateY(18px);transition:.35s;z-index:90;border-radius:2px}
+.totop.show{opacity:1;transform:translateY(0)}
+.totop:hover{background:#fff}
+.totop svg{width:20px;height:20px}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .svc:nth-child(2n){border-right:none}
+  .svc:nth-child(4n){border-right:1px solid rgba(255,255,255,.1)}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .bento{grid-auto-rows:150px}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr;gap:70px}
+  .about-side{right:0}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{position:fixed;inset:0;background:var(--black);flex-direction:column;justify-content:center;gap:10px;transform:translateY(-100%);transition:.5s;z-index:50}
+  .nav-links.open{transform:translateY(0)}
+  .nav-links a{color:#fff!important;font-size:16px;padding:12px}
+  .nav-cta{display:none}
+  .hamburger{display:block}
+  .sec{padding:80px 0}
+  .intro-grid{grid-template-columns:1fr 1fr}
+  .bento{grid-template-columns:repeat(6,1fr)}
+  .p-card{grid-column:span 6}
+  .p-wide{grid-column:span 6}
+  .p-tall{grid-row:span 1}
+  .quote-grid{grid-template-columns:1fr}
+  .cta-flex{flex-direction:column;text-align:center}
+  .tl-item{padding-left:88px}
+  .tl-line,.tl-fill{left:32px}
+  .tl-dot{left:32px;width:64px;height:64px;font-size:22px}
+  .hero-scroll{display:none}
+  .team-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .member-photo{height:280px}
+  .form-grid{grid-template-columns:1fr}
+  .contact-form{padding:34px 26px}
+  .about-main img{height:440px}
+  .about-side{position:static;width:100%;margin-top:-60px;border:none}
+  .about-side img{height:180px}
+  .topbar .hide-m{display:none}
+}
+@media(max-width:520px){
+  .svc-grid{grid-template-columns:1fr}
+  .svc:nth-child(n){border-right:none}
+  .team-grid{grid-template-columns:1fr}
+  .intro-grid{grid-template-columns:1fr}
+  .hero-meta{gap:10px}
+  .btn{padding:16px 26px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- top bar -->
+<div class="topbar">
+  <div class="wrap">
+    <span>Since 2009 · Award-winning Australian architecture practice</span>
+    <span class="hide-m">New project? <a href="mailto:projects@meridianarchitecture.com.au">projects@meridianarchitecture.com.au</a></span>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header id="header">
+  <div class="wrap nav">
+    <a href="#home" class="nav-logo">
+      <span class="m">M</span>
+      <span>Meridian<small>Architecture Group</small></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">Studio</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-solid">Start Your Project</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="wrap hero-inner">
+    <span class="kicker" style="opacity:0;transform:translateY(20px);animation:fadeUp .8s .2s forwards">Architecture & Construction · Sydney</span>
+    <h1>
+      <span class="word"><span style="animation-delay:.35s">We </span></span>
+      <span class="word"><span style="animation-delay:.45s">shape </span></span>
+      <span class="word"><span style="animation-delay:.55s">the </span></span>
+      <span class="word"><span style="animation-delay:.65s" class="em">skyline</span></span>
+      <br>
+      <span class="word line2"><span style="animation-delay:.85s">of tomorrow.</span></span>
+    </h1>
+    <p class="hero-sub">From visionary residential towers to urban masterplans, Meridian Architecture Group turns bold ideas into enduring built form — beautifully engineered, responsibly delivered.</p>
+    <div class="hero-cta" style="display:flex;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(20px);animation:fadeUp .8s 1.1s forwards">
+      <a href="#contact" class="btn btn-solid">Start Your Project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#projects" class="btn btn-line">View Projects</a>
+    </div>
+    <div class="hero-meta">
+      <span class="chip"><span class="dot"></span> 16 Years in practice</span>
+      <span class="chip"><span class="dot"></span> 200+ Projects delivered</span>
+      <span class="chip"><span class="dot"></span> 12 Design awards</span>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<!-- ================= INTRO STRIP ================= -->
+<section class="intro-strip">
+  <div class="wrap intro-grid reveal">
+    <div class="intro-cell"><b>120</b><span>Projects Delivered</span></div>
+    <div class="intro-cell"><b>$2.4B</b><span>Built Value</span></div>
+    <div class="intro-cell"><b>16</b><span>Years Experience</span></div>
+    <div class="intro-cell"><b>64</b><span>Studio Professionals</span></div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="sec projects" id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Featured Projects</span>
+      <h2>Buildings that outlive their architects</h2>
+      <p>A selection from our portfolio — each project a dialogue between context, craft and the people who will live with it for decades.</p>
+    </div>
+    <div class="bento" id="bento" style="margin-top:56px">
+      <a href="#contact" class="p-card p-wide reveal" data-tilt>
+        <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?q=80&w=1200&auto=format&fit=crop" alt="Harbour Heights residential towers" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Residential · Mixed-use</span>
+          <h3>Harbour Heights Towers</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Darling Harbour, Sydney</span>
+          <span class="year">'23</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card p-tall reveal" data-d="1" data-tilt>
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=900&auto=format&fit=crop" alt="Meridian Corporate Quarter" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Commercial</span>
+          <h3>Meridian Corporate Quarter</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Sydney CBD</span>
+          <span class="year">'21</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card p-tall reveal" data-d="2" data-tilt>
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop" alt="Coastal Pavilion House" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Residential · Renovation</span>
+          <h3>Coastal Pavilion House</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Palm Beach, NSW</span>
+          <span class="year">'22</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card p-tall reveal" data-d="3" data-tilt>
+        <img src="https://images.unsplash.com/photo-1493397212122-2b85dda8106b?q=80&w=900&auto=format&fit=crop" alt="Aurora Business Campus" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Commercial Campus</span>
+          <h3>Aurora Business Campus</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Macquarie Park, Sydney</span>
+          <span class="year">'20</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card p-wide reveal" data-d="4" data-tilt>
+        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1200&auto=format&fit=crop" alt="Barangaroo Waterfront Regeneration" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Urban Planning</span>
+          <h3>Barangaroo Waterfront Regeneration</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Barangaroo, Sydney</span>
+          <span class="year">'19</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card p-wide reveal" data-d="5" data-tilt>
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=1200&auto=format&fit=crop" alt="Civic Cultural Hub" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Civic & Cultural</span>
+          <h3>Meridian Civic Cultural Hub</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Parramatta, NSW</span>
+          <span class="year">'18</span>
+        </div>
+      </a>
+      <a href="#contact" class="p-card reveal" data-d="6" data-tilt>
+        <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=800&auto=format&fit=crop" alt="Skyline Interiors" loading="lazy">
+        <div class="p-overlay"></div>
+        <div class="p-info">
+          <span class="p-tag">Interior Fit-Out</span>
+          <h3>Level 27 Executive Fit-Out</h3>
+          <span class="loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg> Sydney CBD</span>
+          <span class="year">'23</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="sec services" id="services">
+  <div class="wrap">
+    <div class="sec-head center dark reveal">
+      <span class="kicker" style="justify-content:center">What We Do</span>
+      <h2>Four disciplines, one integrated practice</h2>
+      <p>We design, manage, and build — keeping a single accountable hand on every stage of your project.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc reveal" data-d="0">
+        <div class="num">01</div>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V8l6-4v16M14 20V4l6 4v12"/></svg></div>
+        <h3>Architectural Design</h3>
+        <p>Concept to construction documentation — spatial, aesthetic and sustainable design tailored to site and client.</p>
+        <div class="process-steps">
+          <div class="step"><i>1</i> Feasibility & concept</div>
+          <div class="step"><i>2</i> Schematic design</div>
+          <div class="step"><i>3</i> Documentation</div>
+          <div class="step"><i>4</i> Approval & tender</div>
+        </div>
+        <a href="#contact" class="svc-link">Enquire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="svc reveal" data-d="1">
+        <div class="num">02</div>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <h3>Construction Management</h3>
+        <p>Transparent cost control, scheduling and on-site supervision that protects budget, quality and timeline.</p>
+        <div class="process-steps">
+          <div class="step"><i>1</i> Procurement & contracts</div>
+          <div class="step"><i>2</i> Programming</div>
+          <div class="step"><i>3</i> Site supervision</div>
+          <div class="step"><i>4</i> Handover & defects</div>
+        </div>
+        <a href="#contact" class="svc-link">Enquire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="svc reveal" data-d="2">
+        <div class="num">03</div>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Interior Fit-Out</h3>
+        <p>Workplace and hospitality interiors engineered for wellbeing, brand and flexibility — delivered fit-for-purpose.</p>
+        <div class="process-steps">
+          <div class="step"><i>1</i> Space planning</div>
+          <div class="step"><i>2</i> Material & FF&amp;E</div>
+          <div class="step"><i>3</i> Fit-out delivery</div>
+          <div class="step"><i>4</i> Styling & handover</div>
+        </div>
+        <a href="#contact" class="svc-link">Enquire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="svc reveal" data-d="3">
+        <div class="num">04</div>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M2 12h6M16 12h6M12 2v6M12 16v6"/></svg></div>
+        <h3>Urban Planning</h3>
+        <p>Masterplans and public realm strategies that balance density, ecology and community for the long term.</p>
+        <div class="process-steps">
+          <div class="step"><i>1</i> Site & policy analysis</div>
+          <div class="step"><i>2</i> Masterplan design</div>
+          <div class="step"><i>3</i> Community consultation</div>
+          <div class="step"><i>4</i> Delivery strategy</div>
+        </div>
+        <a href="#contact" class="svc-link">Enquire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="sec about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-visual reveal reveal-left">
+      <div class="about-main"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" alt="Meridian studio and project" loading="lazy"></div>
+      <div class="about-side"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" alt="Detail of architecture" loading="lazy"></div>
+    </div>
+    <div class="about-content reveal reveal-right">
+      <span class="kicker">Our Studio</span>
+      <h2>Fifteen years of considered making</h2>
+      <p>Founded in <strong>2009</strong> from a single Farrer Place studio room, Meridian Architecture Group was built on a contrarian idea: that great architecture and disciplined delivery belong in the same practice. Two decades later, we've delivered over <strong>120 projects</strong> across Australia and the Asia-Pacific.</p>
+      <div class="about-mission">"Architecture is not about objects — it is about the quiet difference good space makes to everyday life."</div>
+      <p>Our integrated model unites designers, engineers and construction managers under one roof, so nothing is lost between drawing and delivered reality. Every Meridian building carries a 5-year post-occupancy care commitment.</p>
+      <div class="awards">
+        <h4>Recognition</h4>
+        <div class="award"><span class="yr">2023</span><div><b>AIA NSW — Award for Commercial Architecture</b><span>Meridian Corporate Quarter</span></div></div>
+        <div class="award"><span class="yr">2021</span><div><b>Australian Institute of Architects — National Commendation</b><span>Coastal Pavilion House</span></div></div>
+        <div class="award"><span class="yr">2019</span><div><b>Urban Design Award for Excellence</b><span>Barangaroo Waterfront Regeneration</span></div></div>
+        <div class="award"><span class="yr">2016</span><div><b>World Architecture Festival — Shortlist</b><span>Aurora Business Campus</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section class="sec team" id="team">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="kicker" style="justify-content:center">Leadership</span>
+      <h2>The architects behind the work</h2>
+      <p>Senior practitioners who lead every project personally — no hand-offs to juniors, ever.</p>
+    </div>
+    <div class="team-grid">
+      <article class="member reveal" data-d="0">
+        <div class="member-photo"><span class="idx">Director</span><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" alt="David Mercer" loading="lazy"></div>
+        <div class="member-body">
+          <h3>David Mercer</h3>
+          <span class="role">Founding Director</span>
+          <p class="xp"><b>18 yrs</b> · Registered Architect NSW · Urban & high-rise residential</p>
+          <div class="member-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" data-d="1">
+        <div class="member-photo"><span class="idx">Director</span><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Ingrid Keller" loading="lazy"></div>
+        <div class="member-body">
+          <h3>Ingrid Keller</h3>
+          <span class="role">Design Director</span>
+          <p class="xp"><b>15 yrs</b> · RIBA & RAIA · Cultural & civic architecture</p>
+          <div class="member-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" data-d="2">
+        <div class="member-photo"><span class="idx">Director</span><img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?q=80&w=600&auto=format&fit=crop" alt="James Whitfield" loading="lazy"></div>
+        <div class="member-body">
+          <h3>James Whitfield</h3>
+          <span class="role">Construction Director</span>
+          <p class="xp"><b>20 yrs</b> · Chartered Builder · Cost & delivery management</p>
+          <div class="member-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" data-d="3">
+        <div class="member-photo"><span class="idx">Principal</span><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop" alt="Elena Vasquez" loading="lazy"></div>
+        <div class="member-body">
+          <h3>Elena Vasquez</h3>
+          <span class="role">Urban Planning Principal</span>
+          <p class="xp"><b>14 yrs</b> · PIA Certified · Masterplanning & public realm</p>
+          <div class="member-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" data-d="4">
+        <div class="member-photo"><span class="idx">Principal</span><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="Tom Okoye" loading="lazy"></div>
+        <div class="member-body">
+          <h3>Tom Okoye</h3>
+          <span class="role">Interiors Principal</span>
+          <p class="xp"><b>12 yrs</b> · Workplace Strategy · Fit-out & FF&amp;E</p>
+          <div class="member-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="sec process" id="process">
+  <div class="wrap">
+    <div class="sec-head center dark reveal">
+      <span class="kicker" style="justify-content:center">How We Work</span>
+      <h2>From first sketch to final key</h2>
+      <p>Four clear milestones, one accountable team. You always know where your project stands.</p>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="tl-line"></div>
+      <div class="tl-fill" id="tlFill"></div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">01</div>
+        <h3><span>Discovery</span> — listen & understand</h3>
+        <p>We walk the site, study your brief, budget and ambitions. You meet the senior team who will actually run your project — no salespeople, no unknowns.</p>
+        <span class="dur">Weeks 1–2</span>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">02</div>
+        <h3><span>Concept & Design</span> — shape the idea</h3>
+        <p>Schematic designs, material studies, and 3D visualisation bring the vision to life. We iterate together until the design feels unmistakably yours.</p>
+        <span class="dur">Weeks 3–10</span>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">03</div>
+        <h3><span>Approval & Documentation</span> — make it real</h3>
+        <p>Council approvals, engineering, and full construction documentation. We navigate the bureaucracy so you don't have to — on time and on budget.</p>
+        <span class="dur">Weeks 11–24</span>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">04</div>
+        <h3><span>Build & Handover</span> — deliver with care</h3>
+        <p>Our construction team manages trades, quality and safety on site, then hands over with a 5-year post-occupancy commitment behind you.</p>
+        <span class="dur">Weeks 25+</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="sec testi" id="testimonials">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="kicker" style="justify-content:center">Client Words</span>
+      <h2>Trusted by developers, homeowners, and cities</h2>
+    </div>
+    <div class="quote-grid">
+      <div class="quote-card reveal reveal-left" data-d="0">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Meridian delivered our 210-apartment tower four weeks ahead of schedule and $6M under the reference budget. Their design team and construction team argued with each other — productively — so we never had to."</blockquote>
+        <div class="quote-who"><b>Rachel Chen</b><span>Development Director · Harbourline Property Group</span></div>
+      </div>
+      <div class="quote-card reveal reveal-right" data-d="1">
+        <div class="stars">★★★★★</div>
+        <blockquote>"From our first consultation to handover of our coastal home, we felt completely guided. Ingrid redesigned a house we thought was finished — and made us fall in love with it twice."</blockquote>
+        <div class="quote-who"><b>Marcus & Priya Ellison</b><span>Homeowners · Palm Beach, NSW</span></div>
+      </div>
+      <div class="quote-card reveal reveal-left" data-d="2">
+        <div class="stars">★★★★★</div>
+        <blockquote>"The Barangaroo regeneration could have been a PR exercise. Instead it's a genuinely beautiful public place — three years on, the precinct is thriving and the numbers prove it."</blockquote>
+        <div class="quote-who"><b>City of Sydney</b><span>Infrastructure Partnerships Office</span></div>
+      </div>
+      <div class="quote-card reveal reveal-right" data-d="3">
+        <div class="stars">★★★★★</div>
+        <blockquote>"We've used Meridian for three consecutive office fit-outs. Every one finished on time, disruption was minimal, and our staff surveys rate the spaces in the top percentile. Rare."</blockquote>
+        <div class="quote-who"><b>Lisa Tran</b><span>COO · Kestrel Technology Group</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA BAND ================= -->
+<section class="cta-band">
+  <div class="wrap cta-flex reveal">
+    <div>
+      <h2>Have a site, a brief, or just an idea?</h2>
+      <p>Tell us about your project and we'll schedule a no-obligation consultation with a senior architect within 48 hours.</p>
+    </div>
+    <a href="#contact" class="btn btn-solid">Start Your Project
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="sec contact" id="contact">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="kicker" style="justify-content:center">Contact Us</span>
+      <h2>Let's talk about your project</h2>
+      <p>Whether it's a landmark tower or a family renovation, the conversation starts here.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info-cards reveal reveal-left">
+        <div class="c-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <h4>Studio</h4>
+            <p>Level 14, 1 Farrer Place<br>Sydney, NSW 2000, Australia</p>
+          </div>
+        </div>
+        <div class="c-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <h4>Phone</h4>
+            <a class="phone" href="tel:+61281239456">+61 2 8123 9456</a>
+            <p>Mon–Fri, 8:30am – 6:00pm AEST</p>
+          </div>
+        </div>
+        <div class="c-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></div>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:projects@meridianarchitecture.com.au">projects@meridianarchitecture.com.au</a><br>Project inquiries answered within 24 hours</p>
+          </div>
+        </div>
+        <div class="c-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div>
+            <h4>Visiting</h4>
+            <p>By appointment only. Take the Farrer Place lift lobby to Level 14 — our team will meet you at reception.</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-right" id="inquiryForm" novalidate>
+        <h3>Project Inquiry</h3>
+        <p>Fields marked * are required. We respond to every inquiry within one business day.</p>
+        <div class="form-grid">
+          <div class="f-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" placeholder="Your name">
+          </div>
+          <div class="f-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="you@company.com">
+          </div>
+          <div class="f-group full">
+            <label for="ptype">Project Type *</label>
+            <select id="ptype">
+              <option value="" selected disabled>Select project type</option>
+              <option>Residential — New Build</option>
+              <option>Residential — Renovation</option>
+              <option>Commercial Development</option>
+              <option>Interior Fit-Out</option>
+              <option>Urban / Masterplanning</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label for="budget">Budget Range *</label>
+            <select id="budget">
+              <option value="" selected disabled>Select budget</option>
+              <option>Under $500k</option>
+              <option>$500k – $2M</option>
+              <option>$2M – $10M</option>
+              <option>$10M – $50M</option>
+              <option>$50M+</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label for="timeline">Expected Timeline</label>
+            <select id="timeline">
+              <option value="" selected disabled>Select timeline</option>
+              <option>As soon as possible</option>
+              <option>3–6 months</option>
+              <option>6–12 months</option>
+              <option>12+ months</option>
+            </select>
+          </div>
+          <div class="f-group full">
+            <label for="message">About Your Project *</label>
+            <textarea id="message" placeholder="Site location, scope, aspirations... tell us what you're imagining."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:26px">Send Inquiry
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        </button>
+        <div class="form-msg" id="inqMsg">Thank you — your inquiry has been sent. A senior architect will contact you within one business day.</div>
+      </form>
+    </div>
+    <div class="map-embed reveal">
+      <div class="map-overlay">
+        <h4>Meridian Architecture Group</h4>
+        <p>Level 14, 1 Farrer Place, Sydney NSW 2000</p>
+      </div>
+      <iframe title="Meridian office map" src="https://www.google.com/maps?q=1+Farrer+Place,+Sydney+NSW+2000,+Australia&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#home" class="nav-logo"><span class="m">M</span><span>Meridian<small>Architecture Group</small></span></a>
+        <p>An integrated architecture, construction and planning practice delivering considered built environments across Australia since 2009.</p>
+        <div class="footer-cert">
+          <span>AIA Member</span>
+          <span>RAIA</span>
+          <span>PIA Certified</span>
+          <span>ISO 9001</span>
+          <span>Green Star</span>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.64 7.86 6.36 9.31-.09-.79-.17-2 .04-2.87l1.02-4.33s-.26-.53-.26-1.3c0-1.22.71-2.13 1.59-2.13.75 0 1.11.56 1.11 1.24 0 .75-.48 1.88-.73 2.92-.21.87.44 1.58 1.3 1.58 1.56 0 2.76-1.65 2.76-4.03 0-2.1-1.51-3.57-3.67-3.57-2.5 0-3.97 1.88-3.97 3.82 0 .76.29 1.57.66 2.01.07.09.08.16.06.25l-.24.97c-.04.16-.13.19-.3.12-1.14-.53-1.85-2.2-1.85-3.54 0-2.88 2.09-5.52 6.03-5.52 3.17 0 5.63 2.26 5.63 5.27 0 3.15-1.99 5.68-4.75 5.68-.93 0-1.8-.48-2.1-1.05l-.57 2.18c-.21.8-.77 1.8-1.15 2.42.87.27 1.79.41 2.74.41 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Sitemap</h4>
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">Our Studio</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Architectural Design</a></li>
+          <li><a href="#services">Construction Management</a></li>
+          <li><a href="#services">Interior Fit-Out</a></li>
+          <li><a href="#services">Urban Planning</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+61281239456">+61 2 8123 9456</a></li>
+          <li><a href="mailto:projects@meridianarchitecture.com.au">projects@meridianarchitecture.com.au</a></li>
+          <li><a href="#contact">Level 14, 1 Farrer Place</a></li>
+          <li><a href="#contact">Sydney NSW 2000</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Architecture Group Pty Ltd. ABN 43 118 220 917. All rights reserved.</span>
+      <span>Registered Architects NSW · <a href="#home" style="color:var(--amber)">Privacy</a> · <a href="#home" style="color:var(--amber)">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+/* ---------- Header scroll ---------- */
+const header=document.getElementById('header');
+const toTop=document.getElementById('toTop');
+window.addEventListener('scroll',()=>{
+  header.classList.toggle('scrolled',window.scrollY>60);
+  toTop.classList.toggle('show',window.scrollY>700);
+},{passive:true});
+toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ---------- Mobile nav ---------- */
+const hamburger=document.getElementById('hamburger');
+const navLinks=document.getElementById('navLinks');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');navLinks.classList.toggle('open');});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hamburger.classList.remove('active');navLinks.classList.remove('open');}));
+
+/* ---------- Hero parallax ---------- */
+const heroBg=document.getElementById('heroBg');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  if(y<window.innerHeight){
+    heroBg.style.transform=`scale(1.12) translateY(${y*0.25}px)`;
+  }
+},{passive:true});
+
+/* ---------- Reveal ---------- */
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+},{threshold:.12,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- 3D tilt on project cards ---------- */
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(1000px) rotateX(${-y*8}deg) rotateY(${x*8}deg) translateY(-6px)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(1000px) rotateX(0) rotateY(0)';
+  });
+});
+
+/* ---------- Process timeline fill ---------- */
+const timeline=document.getElementById('timeline');
+const tlFill=document.getElementById('tlFill');
+const tlItems=[...timeline.querySelectorAll('.tl-item')];
+const tlIO=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      const done=tlItems.filter(i=>i.classList.contains('in')).length;
+      tlFill.style.height=(done/tlItems.length*100)+'%';
+    }
+  });
+},{threshold:.4});
+tlItems.forEach(el=>tlIO.observe(el));
+
+/* ---------- Inquiry form ---------- */
+const inf=document.getElementById('inquiryForm');
+inf.addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  const rules=[['name','required'],['email','email'],['ptype','required'],['budget','required'],['message','required']];
+  rules.forEach(([id,type])=>{
+    const f=document.getElementById(id);
+    const v=f.value.trim();
+    const bad=(type==='required'&&!v)||(type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+    f.classList.toggle('error',bad);
+    if(bad) ok=false;
+  });
+  const msg=document.getElementById('inqMsg');
+  if(!ok){
+    msg.textContent='Please complete the required fields highlighted above.';
+    msg.className='form-msg';
+    msg.style.display='block';
+    msg.style.background='#fef2f2';msg.style.color='#b91c1c';msg.style.borderLeftColor='#dc2626';
+    return;
+  }
+  msg.className='form-msg ok';
+  inf.reset();
+  msg.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+/* ---------- Year ---------- */
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
